@@ -114,21 +114,20 @@ class MainWindow(QMainWindow):
         self.calculation += symbol
         self.display.setText(self.calculation)
 
-    def calculate(self):
-        operators = ["+","-","/","*"]
-        error = ""
+    allowed = set("0123456789+-*/(). ")
 
-        if any(operator in self.calculation for operator in operators):
-            if "+" in self.calculation or "-" in self.calculation or "/" in self.calculation or "*" in self.calculation:
-                try:
-                    self.output = eval(self.calculation)
-                except Exception as e:
-                    error = e
-                    self.calculation = ""
-                if error == "":
-                    self.display.setText(f"{self.calculation} = {self.output}")
-                else:
-                    self.display.setText(f"Error: {str(error)}")
+    def calculate(self):
+        if not all(c in allowed for c in self.calculation):
+            self.display.setText("Error: Ungültige Zeichen")
+            return
+
+        try:
+            result = eval(self.calculation)
+        except Exception as e:
+            self.display.setText(f"Error: {e}")
+            return
+
+        self.display.setText(f"{self.calculation} = {result}")
 
     def clear (self):
         self.calculation = ""
