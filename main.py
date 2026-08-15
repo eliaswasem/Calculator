@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
 
     def calculate(self):
         if not all(c in allowed for c in self.calculation):
-            self.display.setText("Error: Ungültige Zeichen")
+            self.display.setText("Error: Invalid characters")
             return
 
         try:
